@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "development": "vite",
+    "lint": "eslint .",
+    "clean": "rm -rf .node_repl_history .npm node_modules package-lock.json"
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-react-hooks": "4.4.0",
+    "vite": "2.9.1",
+    "vite-plugin-eslint": "1.3.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "firebase": "^9.9.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-router-dom": "^6.3.0"
+  }
+}
