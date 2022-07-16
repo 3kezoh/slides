@@ -1,0 +1,9 @@
+.slides-board {
+    width: 90vw;
+    height: 70vh;
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    border: 1px solid black;
+}
