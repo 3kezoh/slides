@@ -1,14 +1,13 @@
 import React from 'react';
+import Board from '../sources/components/Board';
+import Editor from '../sources/components/Editor';
 
 const Home = ({ user }) => {
   return (
-    // <div className="home">
-    //   <h1>Hello, <span></span>{user.displayName}</h1>
-    //   <img src={user.photoURL} alt="" />
-    //   <button className="button signout" onClick={() => auth.signOut()}>Sign out</button>
-    // </div>
     <>
-        <h1>Home page</h1>
+        <h1>Slides</h1>
+        <Editor />
+        <Board />
     </>
   )
 }

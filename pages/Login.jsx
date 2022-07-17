@@ -1,8 +1,8 @@
 import React, { useContext, useState, useRef } from "react";
-import { auth } from "../sources/components/firebase";
+import { auth } from "../sources/components/firebase-config";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import '../styles/login.css';
-import { UserContext } from "../sources/context/userContext";
+import { UserContext } from "../sources/context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
