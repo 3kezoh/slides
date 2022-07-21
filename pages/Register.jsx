@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import { UserContext } from "../sources/context/userContext";
+import { UserContext } from "../sources/context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {

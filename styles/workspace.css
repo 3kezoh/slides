@@ -1,0 +1,39 @@
+.title {
+  text-align: center;
+}
+
+.card-rooms {
+  border: 3px solid white;
+  margin: 30px;
+}
+
+.rooms {
+  position: relative;
+  right: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  flex-wrap: wrap;
+}
+
+.add-room {
+  position: relative;
+  right: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  margin-top: 10px;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400;
+  border: 2px solid #000;
+  box-shadow: 24;
+  background-color: black;
+}

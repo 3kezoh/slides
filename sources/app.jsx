@@ -1,36 +1,41 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
-import { auth } from "./components/firebase";
-import { Route, Routes, Link } from "react-router-dom";
+import Menu from "./components/Menu";
+
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
+import Workspace from "../pages/Workspace";
+import { UserContext } from "./context/UserContext";
 
 const App = () => {
-  const logout = () => {
-    auth.signOut();
-  };
+  const { currentUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!currentUser && location.pathname!== "/register" && location.pathname!== "/login") {
+      navigate("/login");
+    }
+  }, [currentUser, navigate]);
 
   return (
     <>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <button className="button signout" onClick={logout}>
-            Sign out
-          </button>
-        </li>
-      </ul>
+      <Menu />
       <Routes>
-        <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        {currentUser && (
+          <>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/workspace" element={<Workspace />} />
+          </>
+        )}
       </Routes>
     </>
   );
