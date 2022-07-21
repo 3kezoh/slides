@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from "react";
-import { auth } from "../sources/components/firebase-config";
+import { auth } from "../sources/services/firebase-config";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import '../styles/login.css';
 import { UserContext } from "../sources/context/UserContext";

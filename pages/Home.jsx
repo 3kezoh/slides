@@ -5,7 +5,6 @@ import Editor from '../sources/components/Editor';
 const Home = ({ user }) => {
   return (
     <>
-        <h1>Slides</h1>
         <Editor />
         <Board />
     </>

@@ -13,6 +13,7 @@ const Board = () => {
 
   const { htmlCode } = useContext(EditorContext);
 
+  //Initialize Reveal.js
   useEffect(() => {
     let deck = new Reveal({
       backgroundTransition: "slide",
