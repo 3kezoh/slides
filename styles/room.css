@@ -1,0 +1,12 @@
+.room {
+    display: flex;
+    flex-direction: column;
+    height: 92vh;
+}
+
+.add-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}

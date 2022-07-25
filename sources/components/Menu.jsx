@@ -22,21 +22,15 @@ const Menu = () => {
             </Typography>
             {currentUser ? (
               <>
-                <Link to="/">
-                  <Button>Home</Button>
-                </Link>
-                <Link to="/workspace">
-                  <Button>Rooms</Button>
+                <Link to="/workspace" className="menu-link">
+                  <Button className="menu-link">Rooms</Button>
                 </Link>
                 <Button onClick={logout}>Se déconnecter</Button>
               </>
             ) : (
               <>
-                <Link to="/">
+                <Link to="/login" className="menu-link">
                   <Button>Se connecter</Button>
-                </Link>
-                <Link to="/register">
-                  <Button>S'incrire</Button>
                 </Link>
               </>
             )}

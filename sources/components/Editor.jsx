@@ -1,73 +1,82 @@
-import React, { useCallback, useContext, useEffect } from "react";
-import { EditorContext } from "../context/EditorContext";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { SlideContext } from "../context/SlideContext";
 import { db } from "../services/firebase-config";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, child, update, push } from "firebase/database";
 import { uid } from "uid";
 import { UserContext } from "../context/UserContext";
+import { useParams } from "react-router-dom";
 
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-html";
-import "ace-builds/src-noconflict/theme-tomorrow_night";
-import "ace-builds/src-noconflict/ext-language_tools";
+import { Editor as TinyMce } from '@tinymce/tinymce-react';
 
 import DOMPurify from "dompurify";
 
+import "../../styles/editor.css";
+
 const Editor = () => {
-  const { htmlCode, setHtmlCode } = useContext(EditorContext);
+  const [ editorContent, setEditorContent ] = useState('');
+  const [ loadHtml, setLoadHtml ] = useState('');
+
+  //Get room id
+  const { roomId } = useParams();
+
+  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } = useContext(SlideContext);
   const { currentUser } = useContext(UserContext);
 
-  //Write clean html in context
-  const onChange = useCallback(dirtyHtml => {
-    const cleanHtml = DOMPurify.sanitize(dirtyHtml);
-    setHtmlCode(cleanHtml);
+  //Write clean html in firebase
+  const onChange = useCallback((htmlCode) => {
+    const decodedHtml = decodeEntity(htmlCode)
+    const cleanHtml = DOMPurify.sanitize(decodedHtml, { USE_PROFILES: { html: true } });
+    setEditorContent(cleanHtml);
   }, []);
+
+  const decodeEntity = (inputStr) => {
+    var textarea = document.createElement("textarea");
+    textarea.innerHTML = inputStr;
+    return textarea.value;
+  }
 
   //Saves html code to firebase
   useEffect(
     useCallback(() => {
-      const timeout = setTimeout(() => {
+      if (editorContent !== '') {
         const uuid = uid();
-        set(ref(db, `slide/${currentUser.uid}`), {
-          htmlCode: htmlCode,
-          userId: currentUser.uid,
+        set(ref(db, `room/${roomId}/slide/${slideNumber}`), {
+          htmlCode: editorContent,
           uuid: uuid,
         });
-        console.log("saved");
-      }, 3000);
-      return () => clearTimeout(timeout);
+      }
     }),
-    [htmlCode, currentUser.uid]
+    [editorContent, currentUser.uid]
   );
 
   //Updates html code based on database changes
   useEffect(() => {
-    const slideRef = ref(db, `slide/${currentUser.uid}`);
-    onValue(slideRef, snapshot => {
+    const slideRef = ref(db, `room/${roomId}/slide/${slideNumber}`);
+    onValue(slideRef, (snapshot) => {
       const data = snapshot.val();
-      setHtmlCode(data.htmlCode);
+      setEditorContent(data.htmlCode);
+      if(!loadHtml) {
+        setLoadHtml(data.htmlCode);
+      }
     });
-  }, [currentUser.uid]);
+  }, [currentUser.uid, slideNumber]);
 
   return (
-    <AceEditor
-      mode="html"
-      theme="tomorrow_night"
-      onChange={onChange}
-      name="editor"
-      fontSize={14}
-      height="200px"
-      width="100%"
-      showPrintMargin={true}
-      showGutter={true}
-      highlightActiveLine={true}
-      setOptions={{
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: true,
-        showLineNumbers: true,
-        tabSize: 4,
-      }}
-    />
+    <>
+      <TinyMce
+        apiKey='cocekja1lio6dclbpa4my05qxoqtznk6rvqk5h4ep119pb5z'
+        value={editorContent}
+        onEditorChange={onChange}
+        init={{
+          forced_root_block: false,
+          menubar: false,
+          skin: "oxide-dark",
+          content_css: "dark",
+          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+          statusbar : false,
+        }}
+      />
+    </>
   );
 };
 
