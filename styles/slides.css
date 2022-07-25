@@ -1,13 +1,8 @@
-html {
-    overflow: -moz-scrollbars-vertical;
-    overflow-y: scroll;
-}
-
-.reveal {
-    height: 500px !important; 
-}
-
 .reveal-viewport {
-    background: white;
-    background-color: white;
+  background: white;
+  background-color: white;
+}
+
+.slides {
+  height: 100% !important;
 }

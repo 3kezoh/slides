@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./app";
 import { BrowserRouter } from "react-router-dom";
-import "./index.css";
 import { UserContextProvider } from "./context/UserContext";
-import EditorContextProvider from "./context/EditorContext";
+import SlideContextProvider from "./context/SlideContext";
 import '@fontsource/roboto/400.css';
+import "./index.css";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -21,12 +21,12 @@ const darkTheme = createTheme({
 root.render(
   <BrowserRouter>
     <UserContextProvider>
-      <EditorContextProvider>
+      <SlideContextProvider>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
           <App />
         </ThemeProvider>
-      </EditorContextProvider>
+      </SlideContextProvider>
     </UserContextProvider>
   </BrowserRouter>
 );

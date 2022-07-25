@@ -2,9 +2,10 @@ import React, { useCallback, useState, useContext, useEffect } from "react";
 import "../styles/workspace.css";
 
 import { uid } from "uid";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, update } from "firebase/database";
 import { db } from "../sources/services/firebase-config";
 import { UserContext } from "../sources/context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -35,6 +36,8 @@ const modalStyle = {
 };
 
 const Workspace = () => {
+  const navigate = useCallback(useNavigate());
+
   //Room creation modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -48,13 +51,18 @@ const Workspace = () => {
     (e) => {
       e.preventDefault();
 
-      console.log("b");
       const roomUuid = uid();
       set(ref(db, `room/${roomUuid}`), {
-        users: [currentUser.uid],
+        users: { [currentUser.uid]: true },
         infos: {
           uuid: roomUuid,
           name: roomName,
+        },
+        slide: {
+          0: {
+            htmlCode: "",
+            uuid: uid(),
+          },
         },
       });
 
@@ -76,7 +84,20 @@ const Workspace = () => {
   //Handle delete room
   const handleDelete = useCallback((roomUuid) => {
     set(ref(db, `room/${roomUuid}`), null);
-  });
+  }, []);
+
+  //Handle join room
+  const handleJoin = useCallback(
+    (roomUuid) => {
+      if (roomUuid) {
+        update(ref(db, `room/${roomUuid}/users`), {
+          [currentUser.uid]: true,
+        });
+        navigate(`/room/${roomUuid}`);
+      }
+    },
+    [currentUser.uid]
+  );
 
   return (
     <>
@@ -92,6 +113,7 @@ const Workspace = () => {
               fullWidth
               value={roomName}
               variant="outlined"
+              placeholder="Nom de la room"
               onInput={(e) => setRoomName(e.target.value)}
             />
             <Button
@@ -105,8 +127,8 @@ const Workspace = () => {
           </Box>
         </form>
       </Modal>
-      <Typography variant="h2" className="title" sx={{paddingTop: 5}}>
-        Choisissez votre room
+      <Typography variant="h3" className="title" sx={{ paddingTop: 5 }}>
+        Sélectionnez votre room
       </Typography>
       <Fab
         variant="extended"
@@ -121,12 +143,14 @@ const Workspace = () => {
         {rooms &&
           Object.values(rooms).map(({ infos: { name, uuid } }) => (
             <Card sx={{ maxWidth: 500 }} className="card-rooms">
-              <CardActionArea>
+              <CardActionArea onClick={() => handleJoin(uuid)}>
                 <CardMedia
-                  component="img"
+                  component="iframe"
                   height="200"
-                  image="https://source.unsplash.com/random/500x200"
-                  alt="green iguana"
+                  image={`preview/room/${uuid}`}
+                  className="iframe"
+                  align="bottom"
+                  frameborder="0"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">

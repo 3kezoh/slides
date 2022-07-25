@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "development": "vite",
-    "lint": "eslint .",
-    "clean": "rm -rf .node_repl_history .npm node_modules package-lock.json"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "eslint-plugin-react": "7.29.4",
@@ -15,19 +15,19 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@fontsource/roboto": "^4.5.7",
+    "@gregcello/revealjs-react": "^0.5.1",
     "@mui/icons-material": "^5.8.4",
-    "ace-builds": "^1.7.1",
+    "@tinymce/tinymce-react": "^4.1.0",
     "dompurify": "^2.3.9",
     "DOMPurify": "npm:dompurify@^2.3.9",
-    "dotenv": "^16.0.1",
     "firebase": "^9.9.0",
     "from": "^0.1.7",
     "html-react-parser": "^3.0.1",
     "import": "^0.0.6",
-    "react": "18.0.0",
-    "react-ace": "^10.1.0",
-    "react-dom": "18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "18.2.0",
     "react-router-dom": "^6.3.0",
+    "react-social-login-buttons": "^3.6.0",
     "reveal.js": "^4.3.1",
     "uid": "^2.0.0"
   }

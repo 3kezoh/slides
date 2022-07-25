@@ -1,0 +1,10 @@
+.add-buttons {
+    position: relative !important;
+    top: -20px !important;
+    display: flex;
+    justify-content: center;
+}
+
+.slides section {
+    min-height: 50px !important;
+}

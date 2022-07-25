@@ -1,13 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import Login from "../pages/Login";
-import Home from "../pages/Home";
+import Room from "../pages/Room";
 import Menu from "./components/Menu";
 
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import Register from "../pages/Register";
-import ForgotPassword from "../pages/ForgotPassword";
 import Workspace from "../pages/Workspace";
 import { UserContext } from "./context/UserContext";
+import Preview from "../pages/Preview";
 
 const App = () => {
   const { currentUser } = useContext(UserContext);
@@ -16,23 +15,24 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!currentUser && location.pathname!== "/register" && location.pathname!== "/login") {
+    if (!currentUser && location.pathname !== "/login") {
       navigate("/login");
+    } else if (location.pathname == "/login" && currentUser) {
+      navigate("/workspace");
     }
   }, [currentUser, navigate]);
 
   return (
     <>
+      <Routes>
+        <Route path="/preview/room/:roomId" element={<Preview />} />
+      </Routes>
       <Menu />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
         {currentUser && (
           <>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/room/:roomId" element={<Room />} />
             <Route path="/workspace" element={<Workspace />} />
           </>
         )}
