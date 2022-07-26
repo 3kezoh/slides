@@ -29,7 +29,6 @@ const Login = () => {
         break;
     }
     signInWithPopup(auth, provider);
-    console.log(auth);
   };
 
   return (
