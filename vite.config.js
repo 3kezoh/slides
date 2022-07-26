@@ -5,13 +5,13 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1600,
     target: "es2015",
-    outDir: "../dist",
+    outDir: "dist",
   },
   plugins: [
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,woff,woff2}"],
       },
       injectRegister: "auto",
       devOptions: {
@@ -30,23 +30,23 @@ export default defineConfig({
         lang: "fr",
         icons: [
           {
-            src: "/static/pwa-192x192.png",
+            src: "/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/static/pwa-512x512.png",
+            src: "/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/static/maskable-icon-192x192.png",
+            src: "/maskable-icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
             purpose: "maskable",
           },
           {
-            src: "/static/maskable-icon-512x512.png",
+            src: "/maskable-icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
@@ -55,7 +55,6 @@ export default defineConfig({
       },
     }),
   ],
-  root: "src",
   server: {
     port: 8000,
     host: "0.0.0.0",
