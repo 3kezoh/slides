@@ -13,11 +13,6 @@ import { auth } from "../services/firebase-config";
 import "../styles/login.css";
 
 const Login = () => {
-  const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-  };
-
   const signInWithOauth = (type) => {
     let provider;
     switch (type) {

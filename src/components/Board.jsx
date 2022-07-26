@@ -1,21 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 import { onValue, ref, set } from "firebase/database";
 import { db } from "../services/firebase-config";
-
 import parse from "html-react-parser";
 import Reveal from "reveal.js";
-
 import { SlideContext } from "../context/SlideContext";
-
 import "../../node_modules/reveal.js/dist/reveal.css";
 import "../../node_modules/reveal.js/dist/theme/night.css";
 import "../styles/slides.css";
-
 import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
-
 import { uid } from "uid";
 
 const Board = () => {
