@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import Login from "../pages/Login";
-import Room from "../pages/Room";
+import Login from "./pages/Login";
+import Room from "./pages/Room";
 import Menu from "./components/Menu";
 
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import Workspace from "../pages/Workspace";
+import Workspace from "./pages/Workspace";
 import { UserContext } from "./context/UserContext";
-import Preview from "../pages/Preview";
+import Preview from "./pages/Preview";
 
 const App = () => {
   const { currentUser } = useContext(UserContext);

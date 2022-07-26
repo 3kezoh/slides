@@ -3,8 +3,8 @@ import "../styles/workspace.css";
 
 import { uid } from "uid";
 import { ref, set, onValue, update } from "firebase/database";
-import { db } from "../sources/services/firebase-config";
-import { UserContext } from "../sources/context/UserContext";
+import { db } from "../services/firebase-config";
+import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 import {

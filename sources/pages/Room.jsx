@@ -1,6 +1,6 @@
-import React from 'react';
-import Board from '../sources/components/Board';
-import Editor from '../sources/components/Editor';
+import React from "react";
+import Board from "../components/Board";
+import Editor from "../components/Editor";
 
 import "../styles/room.css";
 
@@ -12,7 +12,7 @@ const Room = () => {
         <Board />
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Room;
