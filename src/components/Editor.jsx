@@ -1,3 +1,5 @@
+import { Editor as TinyMce } from "@tinymce/tinymce-react";
+import DOMPurify from "dompurify";
 import { onValue, ref, set } from "firebase/database";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -5,22 +7,16 @@ import { uid } from "uid";
 import { SlideContext } from "../context/SlideContext";
 import { UserContext } from "../context/UserContext";
 import { db } from "../services/firebase-config";
-
-import { Editor as TinyMce } from "@tinymce/tinymce-react";
-
-import DOMPurify from "dompurify";
-
 import "../styles/editor.css";
 
-const Editor = () => {
+function Editor() {
   const [editorContent, setEditorContent] = useState("");
   const [loadHtml, setLoadHtml] = useState("");
 
   //Get room id
   const { roomId } = useParams();
 
-  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } =
-    useContext(SlideContext);
+  const { slideNumber } = useContext(SlideContext);
   const { currentUser } = useContext(UserContext);
 
   //Write clean html in firebase
@@ -39,18 +35,15 @@ const Editor = () => {
   };
 
   //Saves html code to firebase
-  useEffect(
-    useCallback(() => {
-      if (editorContent !== "") {
-        const uuid = uid();
-        set(ref(db, `room/${roomId}/slide/${slideNumber}`), {
-          htmlCode: editorContent,
-          uuid: uuid,
-        });
-      }
-    }),
-    [editorContent, currentUser.uid]
-  );
+  useEffect(() => {
+    if (editorContent !== "") {
+      const uuid = uid();
+      set(ref(db, `room/${roomId}/slide/${slideNumber}`), {
+        htmlCode: editorContent,
+        uuid: uuid,
+      });
+    }
+  }, [editorContent, currentUser.uid, roomId, slideNumber]);
 
   //Updates html code based on database changes
   useEffect(() => {
@@ -62,26 +55,24 @@ const Editor = () => {
         setLoadHtml(data.htmlCode);
       }
     });
-  }, [currentUser.uid, slideNumber]);
+  }, [currentUser.uid, loadHtml, roomId, slideNumber]);
 
   return (
-    <>
-      <TinyMce
-        apiKey="cocekja1lio6dclbpa4my05qxoqtznk6rvqk5h4ep119pb5z"
-        value={editorContent}
-        onEditorChange={onChange}
-        init={{
-          forced_root_block: false,
-          menubar: false,
-          skin: "oxide-dark",
-          content_css: "dark",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-          statusbar: false,
-        }}
-      />
-    </>
+    <TinyMce
+      apiKey="cocekja1lio6dclbpa4my05qxoqtznk6rvqk5h4ep119pb5z"
+      value={editorContent}
+      onEditorChange={onChange}
+      init={{
+        forced_root_block: false,
+        menubar: false,
+        skin: "oxide-dark",
+        content_css: "dark",
+        content_style:
+          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+        statusbar: false,
+      }}
+    />
   );
-};
+}
 
 export default Editor;

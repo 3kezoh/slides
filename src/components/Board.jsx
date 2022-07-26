@@ -12,7 +12,7 @@ import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import { uid } from "uid";
 
-const Board = () => {
+function Board() {
   const { roomId } = useParams();
 
   const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } =
@@ -37,7 +37,7 @@ const Board = () => {
         updateTotalSlides();
       });
     }
-  }, [slides, revealInitialize]);
+  }, [slides, revealInitialize, updateTotalSlides, setSlideNumber]);
 
   //Update slides array
   useEffect(() => {
@@ -46,13 +46,13 @@ const Board = () => {
       const data = snapshot.val();
       setSlides(data);
     });
-  }, []);
+  }, [roomId]);
 
   const updateTotalSlides = useCallback(() => {
     if (slides.length !== 0) {
       setSlideTotal(slides.length);
     }
-  }, [slides]);
+  }, [setSlideTotal, slides.length]);
 
   const addPage = useCallback(() => {
     const uuid = uid();
@@ -63,14 +63,14 @@ const Board = () => {
     setSlideTotal(slideTotal + 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  }, [slideTotal, slides]);
+  }, [roomId, setSlideTotal, slideTotal]);
 
   const deletePage = useCallback(() => {
     set(ref(db, `room/${roomId}/slide/${slideTotal - 1}`), null);
     setSlideTotal(slideTotal - 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  }, [slideNumber, slideTotal]);
+  }, [roomId, setSlideTotal, slideTotal]);
 
   return (
     <>
@@ -94,6 +94,6 @@ const Board = () => {
       </div>
     </>
   );
-};
+}
 
 export default Board;

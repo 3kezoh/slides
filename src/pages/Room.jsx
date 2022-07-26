@@ -4,15 +4,13 @@ import Editor from "../components/Editor";
 
 import "../styles/room.css";
 
-const Room = () => {
+function Room() {
   return (
-    <>
-      <div className="room">
-        <Editor />
-        <Board />
-      </div>
-    </>
+    <div className="room">
+      <Editor />
+      <Board />
+    </div>
   );
-};
+}
 
 export default Room;

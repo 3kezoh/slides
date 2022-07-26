@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const SlideContext = createContext();
 
-const SlideContextProvider = (props) => {
+export function SlideProvider({ children }) {
   const [slideNumber, setSlideNumber] = useState(0);
   const [slideTotal, setSlideTotal] = useState(0);
 
@@ -10,9 +10,9 @@ const SlideContextProvider = (props) => {
     <SlideContext.Provider
       value={{ slideNumber, setSlideNumber, slideTotal, setSlideTotal }}
     >
-      {props.children}
+      {children}
     </SlideContext.Provider>
   );
-};
+}
 
-export default SlideContextProvider;
+export default SlideProvider;

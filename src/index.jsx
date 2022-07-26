@@ -5,8 +5,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./app";
-import SlideContextProvider from "./context/SlideContext";
-import { UserContextProvider } from "./context/UserContext";
+import { SlideProvider } from "./context/SlideContext";
+import { UserProvider } from "./context/UserContext";
 import "./index.css";
 
 const rootElement = document.getElementById("root");
@@ -20,13 +20,13 @@ const darkTheme = createTheme({
 
 root.render(
   <BrowserRouter>
-    <UserContextProvider>
-      <SlideContextProvider>
+    <UserProvider>
+      <SlideProvider>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
           <App />
         </ThemeProvider>
-      </SlideContextProvider>
-    </UserContextProvider>
+      </SlideProvider>
+    </UserProvider>
   </BrowserRouter>
 );

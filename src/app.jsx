@@ -7,7 +7,7 @@ import Preview from "./pages/Preview";
 import Room from "./pages/Room";
 import Workspace from "./pages/Workspace";
 
-const App = () => {
+function App() {
   const { currentUser } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -38,6 +38,6 @@ const App = () => {
       </Routes>
     </>
   );
-};
+}
 
 export default App;
