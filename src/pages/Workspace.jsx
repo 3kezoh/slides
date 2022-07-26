@@ -1,27 +1,27 @@
-import React, { useCallback, useState, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "../styles/workspace.css";
 
-import { uid } from "uid";
-import { ref, set, onValue, update } from "firebase/database";
-import { db } from "../services/firebase-config";
-import { UserContext } from "../context/UserContext";
+import { onValue, ref, set, update } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import { uid } from "uid";
+import { UserContext } from "../context/UserContext";
+import { db } from "../services/firebase-config";
 
-import {
-  Button,
-  CardActionArea,
-  CardActions,
-  TextField,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Fab,
-  Box,
-  Modal,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Fab,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const modalStyle = {
   position: "absolute",

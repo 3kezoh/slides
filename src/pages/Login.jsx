@@ -1,14 +1,14 @@
-import React from "react";
-import { auth } from "../services/firebase-config";
 import {
-  signInWithPopup,
-  GoogleAuthProvider,
   GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
+import React from "react";
 import {
-  GoogleLoginButton,
   GithubLoginButton,
+  GoogleLoginButton,
 } from "react-social-login-buttons";
+import { auth } from "../services/firebase-config";
 
 import "../styles/login.css";
 

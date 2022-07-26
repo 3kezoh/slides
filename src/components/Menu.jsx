@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
-import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { auth } from "../services/firebase-config";
 
 const Menu = () => {
@@ -10,7 +10,7 @@ const Menu = () => {
 
   const logout = () => {
     auth.signOut();
-  }
+  };
 
   return (
     <>

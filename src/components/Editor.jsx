@@ -1,10 +1,10 @@
+import { onValue, ref, set } from "firebase/database";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { SlideContext } from "../context/SlideContext";
-import { db } from "../services/firebase-config";
-import { ref, set, onValue, child, update, push } from "firebase/database";
-import { uid } from "uid";
-import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
+import { uid } from "uid";
+import { SlideContext } from "../context/SlideContext";
+import { UserContext } from "../context/UserContext";
+import { db } from "../services/firebase-config";
 
 import { Editor as TinyMce } from "@tinymce/tinymce-react";
 

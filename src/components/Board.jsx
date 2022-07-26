@@ -1,17 +1,17 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { onValue, ref, set } from "firebase/database";
 import { db } from "../services/firebase-config";
-import { ref, set, onValue, child, update, push } from "firebase/database";
 
-import Reveal from "reveal.js";
 import parse from "html-react-parser";
+import Reveal from "reveal.js";
 
 import { SlideContext } from "../context/SlideContext";
 
-import "../styles/slides.css";
 import "../../node_modules/reveal.js/dist/reveal.css";
 import "../../node_modules/reveal.js/dist/theme/night.css";
+import "../styles/slides.css";
 
 import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
