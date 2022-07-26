@@ -105,3 +105,9 @@ dist
 
 # VSCode directory
 .vscode
+
+# Vite PWA Plugin
+dev-dist
+
+# MacOS
+.DS_Store
