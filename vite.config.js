@@ -7,5 +7,6 @@ export default {
   build: {
     chunkSizeWarningLimit: 1600,
     target: "es2015",
+    outDir: "../dist",
   },
 };
