@@ -6,26 +6,29 @@ import { uid } from "uid";
 import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
 
-import { Editor as TinyMce } from '@tinymce/tinymce-react';
+import { Editor as TinyMce } from "@tinymce/tinymce-react";
 
 import DOMPurify from "dompurify";
 
-import "../../styles/editor.css";
+import "../styles/editor.css";
 
 const Editor = () => {
-  const [ editorContent, setEditorContent ] = useState('');
-  const [ loadHtml, setLoadHtml ] = useState('');
+  const [editorContent, setEditorContent] = useState("");
+  const [loadHtml, setLoadHtml] = useState("");
 
   //Get room id
   const { roomId } = useParams();
 
-  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } = useContext(SlideContext);
+  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } =
+    useContext(SlideContext);
   const { currentUser } = useContext(UserContext);
 
   //Write clean html in firebase
   const onChange = useCallback((htmlCode) => {
-    const decodedHtml = decodeEntity(htmlCode)
-    const cleanHtml = DOMPurify.sanitize(decodedHtml, { USE_PROFILES: { html: true } });
+    const decodedHtml = decodeEntity(htmlCode);
+    const cleanHtml = DOMPurify.sanitize(decodedHtml, {
+      USE_PROFILES: { html: true },
+    });
     setEditorContent(cleanHtml);
   }, []);
 
@@ -33,12 +36,12 @@ const Editor = () => {
     var textarea = document.createElement("textarea");
     textarea.innerHTML = inputStr;
     return textarea.value;
-  }
+  };
 
   //Saves html code to firebase
   useEffect(
     useCallback(() => {
-      if (editorContent !== '') {
+      if (editorContent !== "") {
         const uuid = uid();
         set(ref(db, `room/${roomId}/slide/${slideNumber}`), {
           htmlCode: editorContent,
@@ -55,7 +58,7 @@ const Editor = () => {
     onValue(slideRef, (snapshot) => {
       const data = snapshot.val();
       setEditorContent(data.htmlCode);
-      if(!loadHtml) {
+      if (!loadHtml) {
         setLoadHtml(data.htmlCode);
       }
     });
@@ -64,7 +67,7 @@ const Editor = () => {
   return (
     <>
       <TinyMce
-        apiKey='cocekja1lio6dclbpa4my05qxoqtznk6rvqk5h4ep119pb5z'
+        apiKey="cocekja1lio6dclbpa4my05qxoqtznk6rvqk5h4ep119pb5z"
         value={editorContent}
         onEditorChange={onChange}
         init={{
@@ -72,8 +75,9 @@ const Editor = () => {
           menubar: false,
           skin: "oxide-dark",
           content_css: "dark",
-          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-          statusbar : false,
+          content_style:
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          statusbar: false,
         }}
       />
     </>

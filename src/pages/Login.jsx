@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "../sources/services/firebase-config";
+import { auth } from "../services/firebase-config";
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -29,7 +29,6 @@ const Login = () => {
         break;
     }
     signInWithPopup(auth, provider);
-    console.log(auth)
   };
 
   return (

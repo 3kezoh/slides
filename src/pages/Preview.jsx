@@ -9,19 +9,19 @@ import parse from "html-react-parser";
 
 import { SlideContext } from "../context/SlideContext";
 
-import "../../styles/slides.css";
 import "../../node_modules/reveal.js/dist/reveal.css";
 import "../../node_modules/reveal.js/dist/theme/night.css";
 
 import { Stack } from "@mui/material";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 import { uid } from "uid";
 
-const Board = () => {
+const Preview = () => {
   const { roomId } = useParams();
 
-  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } = useContext(SlideContext);
+  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } =
+    useContext(SlideContext);
 
   const [slides, setSlides] = useState([]);
   const [revealInitialize, setRevealInitialize] = useState(false);
@@ -29,10 +29,7 @@ const Board = () => {
   useEffect(() => {
     if (!revealInitialize && slides.length !== 0) {
       Reveal.initialize({
-        backgroundTransition: "slide",
-        transition: "slide",
-        embedded: true,
-        slideNumberBackgroundColor: "transparent",
+        controls: false,
       });
       setRevealInitialize(true);
       updateTotalSlides();
@@ -69,27 +66,17 @@ const Board = () => {
     Reveal.destroy();
     setRevealInitialize(false);
   }, [slideTotal, slides]);
-  
+
   const deletePage = useCallback(() => {
-    set(ref(db, `room/${roomId}/slide/${slideTotal-1}`), null);
+    set(ref(db, `room/${roomId}/slide/${slideTotal - 1}`), null);
     setSlideTotal(slideTotal - 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  } , [slideNumber, slideTotal]);
-  
+  }, [slideNumber, slideTotal]);
+
   return (
     <>
-      <Stack direction="row" className="add-buttons" spacing={2}>
-        <Button variant="contained" color="success" onClick={addPage}>
-          Ajouter une page
-        </Button>
-        {slideNumber > 0 && (
-        <Button variant="contained" color="error" onClick={deletePage}>
-          Supprimer la dernière page
-        </Button>
-        )}
-      </Stack>
-      <div className="reveal">
+      <div className="reveal" style={{ width: "100vw", height: "100vh" }}>
         <div className="slides">
           {slides.length !== 0 &&
             slides.map((slide, index) => (
@@ -101,4 +88,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default Preview;

@@ -11,7 +11,8 @@ import { auth } from "../services/firebase-config";
 export const UserContext = createContext();
 
 export function UserContextProvider(props) {
-  const signUp = (email, pwd) => createUserWithEmailAndPassword(auth, email, pwd);
+  const signUp = (email, pwd) =>
+    createUserWithEmailAndPassword(auth, email, pwd);
   const signIn = (email, pwd) => signInWithEmailAndPassword(auth, email, pwd);
 
   const forgotPassword = (email) => {
@@ -20,7 +21,7 @@ export function UserContextProvider(props) {
 
   const [currentUser, setCurrentUser] = useState();
   const [loadingData, setLoadingData] = useState(true);
-  console.log("MAJ", currentUser);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setCurrentUser(currentUser);
@@ -31,7 +32,9 @@ export function UserContextProvider(props) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ signUp, currentUser, signIn, forgotPassword }}>
+    <UserContext.Provider
+      value={{ signUp, currentUser, signIn, forgotPassword }}
+    >
       {!loadingData && props.children}
     </UserContext.Provider>
   );
