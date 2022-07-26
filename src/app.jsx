@@ -19,7 +19,7 @@ const App = () => {
     } else if (location.pathname == "/login" && currentUser) {
       navigate("/workspace");
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, location]);
 
   return (
     <>
