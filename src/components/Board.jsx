@@ -7,7 +7,6 @@ import Reveal from "reveal.js";
 import { SlideContext } from "../context/SlideContext";
 import "../../node_modules/reveal.js/dist/reveal.css";
 import "../../node_modules/reveal.js/dist/theme/night.css";
-import "../styles/slides.css";
 import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
 import { uid } from "uid";
@@ -37,7 +36,7 @@ function Board() {
         updateTotalSlides();
       });
     }
-  }, [slides, revealInitialize, updateTotalSlides, setSlideNumber]);
+  }, [slides, revealInitialize]);
 
   //Update slides array
   useEffect(() => {
@@ -46,13 +45,13 @@ function Board() {
       const data = snapshot.val();
       setSlides(data);
     });
-  }, [roomId]);
+  }, []);
 
   const updateTotalSlides = useCallback(() => {
     if (slides.length !== 0) {
       setSlideTotal(slides.length);
     }
-  }, [setSlideTotal, slides.length]);
+  }, [slides]);
 
   const addPage = useCallback(() => {
     const uuid = uid();
@@ -63,14 +62,14 @@ function Board() {
     setSlideTotal(slideTotal + 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  }, [roomId, setSlideTotal, slideTotal]);
+  }, [slideTotal, slides]);
 
   const deletePage = useCallback(() => {
     set(ref(db, `room/${roomId}/slide/${slideTotal - 1}`), null);
     setSlideTotal(slideTotal - 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  }, [roomId, setSlideTotal, slideTotal]);
+  }, [slideNumber, slideTotal]);
 
   return (
     <>

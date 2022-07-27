@@ -43,7 +43,7 @@ function Editor() {
         uuid: uuid,
       });
     }
-  }, [editorContent, currentUser.uid, roomId, slideNumber]);
+  }, [editorContent, currentUser.uid]);
 
   //Updates html code based on database changes
   useEffect(() => {
@@ -55,7 +55,7 @@ function Editor() {
         setLoadHtml(data.htmlCode);
       }
     });
-  }, [currentUser.uid, loadHtml, roomId, slideNumber]);
+  }, [currentUser.uid, slideNumber]);
 
   return (
     <TinyMce
