@@ -29,7 +29,7 @@ function Preview() {
         updateTotalSlides();
       });
     }
-  }, [slides, revealInitialize, updateTotalSlides, setSlideNumber]);
+  }, [slides, revealInitialize]);
 
   //Update slides array
   useEffect(() => {
@@ -38,13 +38,13 @@ function Preview() {
       const data = snapshot.val();
       setSlides(data);
     });
-  }, [roomId]);
+  }, []);
 
   const updateTotalSlides = useCallback(() => {
     if (slides.length !== 0) {
       setSlideTotal(slides.length);
     }
-  }, [setSlideTotal, slides.length]);
+  }, [slides]);
 
   return (
     <div className="reveal" style={{ width: "100vw", height: "100vh" }}>

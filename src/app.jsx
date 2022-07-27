@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, lazy } from "react";
+import React, { useContext, useEffect, lazy, Suspense } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Menu from "./components/Menu";
 import { UserContext } from "./context/UserContext";
@@ -24,17 +24,21 @@ function App() {
 
   return (
     <>
-      <Menu />
       <Routes>
         <Route path="/preview/room/:roomId" element={<Preview />} />
-        <Route path="/login" element={<Login />} />
-        {currentUser && (
-          <>
-            <Route path="/room/:roomId" element={<Room />} />
-            <Route path="/workspace" element={<Workspace />} />
-          </>
-        )}
       </Routes>
+      <Menu />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          {currentUser && (
+            <>
+              <Route path="/room/:roomId" element={<Room />} />
+              <Route path="/workspace" element={<Workspace />} />
+            </>
+          )}
+        </Routes>
+      </Suspense>
     </>
   );
 }

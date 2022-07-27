@@ -66,7 +66,7 @@ function Workspace() {
 
       handleClose();
     },
-    [currentUser.uid, roomName]
+    [roomName]
   );
 
   // Get all rooms
@@ -94,7 +94,7 @@ function Workspace() {
         navigate(`/room/${roomUuid}`);
       }
     },
-    [currentUser.uid, navigate]
+    [currentUser.uid]
   );
 
   return (
@@ -148,7 +148,7 @@ function Workspace() {
                   image={`preview/room/${uuid}`}
                   className="iframe"
                   align="bottom"
-                  frameborder="0"
+                  frameBorder="0"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
