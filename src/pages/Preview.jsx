@@ -1,27 +1,17 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-
-import { db } from "../services/firebase-config";
-import { ref, set, onValue, child, update, push } from "firebase/database";
-
-import Reveal from "reveal.js";
+import { onValue, ref } from "firebase/database";
 import parse from "html-react-parser";
-
-import { SlideContext } from "../context/SlideContext";
-
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Reveal from "reveal.js";
 import "../../node_modules/reveal.js/dist/reveal.css";
 import "../../node_modules/reveal.js/dist/theme/night.css";
+import { SlideContext } from "../context/SlideContext";
+import { db } from "../services/firebase-config";
 
-import { Stack } from "@mui/material";
-import Button from "@mui/material/Button";
-
-import { uid } from "uid";
-
-const Preview = () => {
+function Preview() {
   const { roomId } = useParams();
 
-  const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } =
-    useContext(SlideContext);
+  const { setSlideNumber, setSlideTotal } = useContext(SlideContext);
 
   const [slides, setSlides] = useState([]);
   const [revealInitialize, setRevealInitialize] = useState(false);
@@ -39,7 +29,7 @@ const Preview = () => {
         updateTotalSlides();
       });
     }
-  }, [slides, revealInitialize]);
+  }, [slides, revealInitialize, updateTotalSlides, setSlideNumber]);
 
   //Update slides array
   useEffect(() => {
@@ -48,44 +38,24 @@ const Preview = () => {
       const data = snapshot.val();
       setSlides(data);
     });
-  }, []);
+  }, [roomId]);
 
   const updateTotalSlides = useCallback(() => {
     if (slides.length !== 0) {
       setSlideTotal(slides.length);
     }
-  }, [slides]);
-
-  const addPage = useCallback(() => {
-    const uuid = uid();
-    set(ref(db, `room/${roomId}/slide/${slideTotal}`), {
-      htmlCode: "",
-      uuid: uuid,
-    });
-    setSlideTotal(slideTotal + 1);
-    Reveal.destroy();
-    setRevealInitialize(false);
-  }, [slideTotal, slides]);
-
-  const deletePage = useCallback(() => {
-    set(ref(db, `room/${roomId}/slide/${slideTotal - 1}`), null);
-    setSlideTotal(slideTotal - 1);
-    Reveal.destroy();
-    setRevealInitialize(false);
-  }, [slideNumber, slideTotal]);
+  }, [setSlideTotal, slides.length]);
 
   return (
-    <>
-      <div className="reveal" style={{ width: "100vw", height: "100vh" }}>
-        <div className="slides">
-          {slides.length !== 0 &&
-            slides.map((slide, index) => (
-              <section key={index}>{parse(slide.htmlCode)}</section>
-            ))}
-        </div>
+    <div className="reveal" style={{ width: "100vw", height: "100vh" }}>
+      <div className="slides">
+        {slides.length !== 0 &&
+          slides.map((slide, index) => (
+            <section key={index}>{parse(slide.htmlCode)}</section>
+          ))}
       </div>
-    </>
+    </div>
   );
-};
+}
 
 export default Preview;

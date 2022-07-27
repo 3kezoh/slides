@@ -1,24 +1,18 @@
-import React, { useEffect, useContext, useState, useCallback } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { onValue, ref, set } from "firebase/database";
 import { db } from "../services/firebase-config";
-import { ref, set, onValue, child, update, push } from "firebase/database";
-
-import Reveal from "reveal.js";
 import parse from "html-react-parser";
-
+import Reveal from "reveal.js";
 import { SlideContext } from "../context/SlideContext";
-
-import "../styles/slides.css";
 import "../../node_modules/reveal.js/dist/reveal.css";
 import "../../node_modules/reveal.js/dist/theme/night.css";
-
+import "../styles/slides.css";
 import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
-
 import { uid } from "uid";
 
-const Board = () => {
+function Board() {
   const { roomId } = useParams();
 
   const { slideNumber, setSlideNumber, slideTotal, setSlideTotal } =
@@ -43,7 +37,7 @@ const Board = () => {
         updateTotalSlides();
       });
     }
-  }, [slides, revealInitialize]);
+  }, [slides, revealInitialize, updateTotalSlides, setSlideNumber]);
 
   //Update slides array
   useEffect(() => {
@@ -52,13 +46,13 @@ const Board = () => {
       const data = snapshot.val();
       setSlides(data);
     });
-  }, []);
+  }, [roomId]);
 
   const updateTotalSlides = useCallback(() => {
     if (slides.length !== 0) {
       setSlideTotal(slides.length);
     }
-  }, [slides]);
+  }, [setSlideTotal, slides.length]);
 
   const addPage = useCallback(() => {
     const uuid = uid();
@@ -69,14 +63,14 @@ const Board = () => {
     setSlideTotal(slideTotal + 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  }, [slideTotal, slides]);
+  }, [roomId, setSlideTotal, slideTotal]);
 
   const deletePage = useCallback(() => {
     set(ref(db, `room/${roomId}/slide/${slideTotal - 1}`), null);
     setSlideTotal(slideTotal - 1);
     Reveal.destroy();
     setRevealInitialize(false);
-  }, [slideNumber, slideTotal]);
+  }, [roomId, setSlideTotal, slideTotal]);
 
   return (
     <>
@@ -100,6 +94,6 @@ const Board = () => {
       </div>
     </>
   );
-};
+}
 
 export default Board;

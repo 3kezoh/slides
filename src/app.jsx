@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from "react";
-import Login from "./pages/Login";
-import Room from "./pages/Room";
+import React, { useContext, useEffect, lazy } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Menu from "./components/Menu";
-
-import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
-import Workspace from "./pages/Workspace";
 import { UserContext } from "./context/UserContext";
-import Preview from "./pages/Preview";
 
-const App = () => {
+const Login = lazy(() => import("./pages/Login"));
+const Preview = lazy(() => import("./pages/Preview"));
+const Room = lazy(() => import("./pages/Room"));
+const Workspace = lazy(() => import("./pages/Workspace"));
+
+function App() {
   const { currentUser } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -20,15 +20,13 @@ const App = () => {
     } else if (location.pathname == "/login" && currentUser) {
       navigate("/workspace");
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, location]);
 
   return (
     <>
-      <Routes>
-        <Route path="/preview/room/:roomId" element={<Preview />} />
-      </Routes>
       <Menu />
       <Routes>
+        <Route path="/preview/room/:roomId" element={<Preview />} />
         <Route path="/login" element={<Login />} />
         {currentUser && (
           <>
@@ -39,6 +37,6 @@ const App = () => {
       </Routes>
     </>
   );
-};
+}
 
 export default App;

@@ -1,27 +1,25 @@
-import React, { useCallback, useState, useContext, useEffect } from "react";
-import "../styles/workspace.css";
-
-import { uid } from "uid";
-import { ref, set, onValue, update } from "firebase/database";
-import { db } from "../services/firebase-config";
-import { UserContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
-
-import {
-  Button,
-  CardActionArea,
-  CardActions,
-  TextField,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Fab,
-  Box,
-  Modal,
-} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Fab,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { onValue, ref, set, update } from "firebase/database";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { uid } from "uid";
+import { UserContext } from "../context/UserContext";
+import { db } from "../services/firebase-config";
+import "../styles/workspace.css";
 
 const modalStyle = {
   position: "absolute",
@@ -35,8 +33,8 @@ const modalStyle = {
   p: 4,
 };
 
-const Workspace = () => {
-  const navigate = useCallback(useNavigate());
+function Workspace() {
+  const navigate = useNavigate();
 
   //Room creation modal
   const [open, setOpen] = useState(false);
@@ -68,7 +66,7 @@ const Workspace = () => {
 
       handleClose();
     },
-    [roomName]
+    [currentUser.uid, roomName]
   );
 
   // Get all rooms
@@ -96,7 +94,7 @@ const Workspace = () => {
         navigate(`/room/${roomUuid}`);
       }
     },
-    [currentUser.uid]
+    [currentUser.uid, navigate]
   );
 
   return (
@@ -142,7 +140,7 @@ const Workspace = () => {
       <div className="rooms">
         {rooms &&
           Object.values(rooms).map(({ infos: { name, uuid } }) => (
-            <Card sx={{ maxWidth: 500 }} className="card-rooms">
+            <Card sx={{ maxWidth: 500 }} className="card-rooms" key={uuid}>
               <CardActionArea onClick={() => handleJoin(uuid)}>
                 <CardMedia
                   component="iframe"
@@ -172,6 +170,6 @@ const Workspace = () => {
       </div>
     </>
   );
-};
+}
 
 export default Workspace;
